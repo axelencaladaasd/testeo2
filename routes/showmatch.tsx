@@ -4,7 +4,7 @@ import { PageProps } from "@fresh/core";
 import { TORNEO_CONFIG } from "@/utils/config.ts";
 import { type MyState } from "@/routes/_middleware.ts";
 import Gate from "@/components/Gate.tsx";
-import Showmatchs from "@/islands/showmatch.tsx";
+import ShowVideo from "@/islands/showmatch.tsx";
 
 export default function Showmatch({ state: _state }: PageProps<unknown, MyState>) {
   const ahora = Date.now();
@@ -28,7 +28,7 @@ export default function Showmatch({ state: _state }: PageProps<unknown, MyState>
         {/* CASO B: Durante o después del torneo - Video */}
         {!isBefore && (
           <main className="animate-fade-in relative z-10 flex min-h-screen w-full flex-col items-center justify-center px-[2vw]">
-            <Showmatchs videoId="2663128379" />
+            <ShowVideo videoId="2663128379" />
           </main>
         )}
       </div>

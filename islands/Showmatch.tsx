@@ -1,6 +1,6 @@
 import { useEffect, useState } from "preact/hooks";
 
-export default function Showmatchs({ videoId }: { videoId: string }) {
+export default function ShowVideo({ videoId }: { videoId: string }) {
   const [parent, setParent] = useState("");
 
   useEffect(() => {
