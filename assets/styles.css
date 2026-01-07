@@ -1,0 +1,193 @@
+@import "tailwindcss";
+
+@theme {
+  --color-Azul: #0d1f33;
+  --color-Dorado: #dfb760;
+  --color-Blanco: #ffffff;
+  --color-Negro: #000000;
+}
+/* {
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+
+  -webkit-user-drag: none;
+  -khtml-user-drag: none;
+  -moz-user-drag: none;
+  -o-user-drag: none;
+}
+quitar interaccion(pasar a tw)
+*/
+
+/* 2. DEFINICIÓN DE FUENTES */
+@font-face {
+  font-family: "Gotham Ultra";
+  src: url("/fonts/Gotham-Ultra.woff2") format("woff2");
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Gotham";
+  src: url("/fonts/Gotham-Medium.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Raleway";
+  src: url("/fonts/Raleway.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "RalewayL";
+  src: url("/fonts/Raleway-Light.woff2") format("woff2");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+.raleway { font-family: "Raleway", sans-serif; }
+.ralewayL { font-family: "RalewayL", sans-serif; }
+.gothamU { font-family: "Gotham Ultra", sans-serif; }
+.gotham { font-family: "Gotham", sans-serif; }
+
+
+/* Timer - Estructura Base */
+.fcc-wrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2vh 2vw;
+  user-select: none;
+}
+
+/* --- DÍGITO (MÓVIL) --- */
+.fcc-digit {
+  position: relative;
+  width: 10vw;
+  height: 14vw;
+  background-color: var(--color-Dorado);
+  border-radius: 2vw;
+  perspective: 400px;
+  box-shadow: 0 0.4vw 0.8vw rgba(0,0,0,0.15);
+}
+
+/* --- DÍGITO (PC) --- */
+@media (min-width: 768px) {
+  .fcc-digit {
+    width: 5.2vw;
+    height: 6vw;
+    border-radius: 0.8vw;
+  }
+}
+
+.fcc-section {
+  position: absolute;
+  width: 100%;
+  height: 50%;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  background-color: var(--color-Dorado);
+}
+
+/* --- NÚMEROS (MÓVIL) --- */
+.fcc-number {
+  position: absolute;
+  width: 100%;
+  height: 14vw;
+  line-height: 14vw;
+  text-align: center;
+  color: var(--color-Blanco);
+  font-family: 'Gotham', sans-serif;
+  font-size: 8vw;
+  font-weight: 900;
+}
+
+/* --- NÚMEROS (PC) --- */
+@media (min-width: 768px) {
+  .fcc-number {
+    height: 6vw;
+    line-height: 6vw;
+    font-size: 3.8vw;
+    font-weight: 900;
+  }
+}
+
+/* --- ESQUINAS REDONDEADAS INTERNAS (MÓVIL) --- */
+.fcc-top, .fcc-leaf-front {
+  top: 0;
+  border-radius: 2vw 2vw 0 0;
+  background-image: linear-gradient(rgba(0,0,0,0.1), rgba(0,0,0,0));
+  border-bottom: 1px solid rgba(0,0,0,0.1);
+}
+
+.fcc-bottom, .fcc-leaf-back {
+  bottom: 0;
+  border-radius: 0 0 2vw 2vw;
+  background-image: linear-gradient(rgba(255,255,255,0.1), rgba(255,255,255,0));
+}
+
+/* --- ESQUINAS REDONDEADAS INTERNAS (PC) --- */
+@media (min-width: 768px) {
+  .fcc-top, .fcc-leaf-front {
+    border-radius: 0.8vw 0.8vw 0 0;
+  }
+  .fcc-bottom, .fcc-leaf-back {
+    border-radius: 0 0 0.8vw 0.8vw;
+  }
+}
+
+.fcc-old { z-index: 2; }
+.fcc-top .fcc-number, .fcc-leaf-front .fcc-number { top: 0; }
+.fcc-bottom .fcc-number, .fcc-leaf-back .fcc-number { bottom: 0; }
+
+.fcc-leaf-container {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 50%;
+  z-index: 10;
+  transform-style: preserve-3d;
+  transform-origin: bottom;
+  animation: fcc-flip-anim 0.6s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+  will-change: transform;
+}
+
+.fcc-leaf-front, .fcc-leaf-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  background-color: var(--color-Dorado);
+}
+
+.fcc-leaf-back { transform: rotateX(-180deg); }
+
+.fcc-divider-line {
+  position: absolute;
+  top: 50%;
+  width: 100%;
+  height: 1px;
+  background-color: var(--color-Blanco);
+  z-index: 30;
+  transform: translateY(-50%);
+  opacity: 0.3;
+}
+
+@keyframes fcc-flip-anim {
+  0% { transform: rotateX(0deg); }
+  100% { transform: rotateX(-180deg); }
+}
