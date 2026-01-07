@@ -144,12 +144,40 @@ export async function handler(ctx: Context<MyState>) {
               : "OFFLINE"
     }));
 
+    // ... (aquí termina tu bloque catch anterior)
   } catch (e) {
     console.error("Error Middleware:", e);
     ctx.state.jugadores = CACHE.jugadores.data;
     ctx.state.vivos = CACHE.vivos.data;
   }
 
-  return await ctx.next();
+  // --- 1. CONFIGURACIÓN PARA ARCHIVOS ESTÁTICOS ---
+  // Esto lo ponemos aquí para que el CSS también reciba su header
+  if (path.includes(".") || path.startsWith("/_frsh/")) {
+    const resp = await ctx.next();
+    if (path.endsWith(".css")) {
+      // El CSS dura 1 día (86400 segundos)
+      resp.headers.set("cache-control", "public, max-age=86400");
+    } else {
+      // Otros archivos (JS, imágenes) duran 1 año (estándar de Fresh)
+      resp.headers.set("cache-control", "public, max-age=31536000, immutable");
+    }
+    return resp;
+  }
+
+  // --- 2. RESPUESTA FINAL PARA HTML CON CACHÉ DE 1 HORA ---
+  const resp = await ctx.next();
+
+  if (resp.status === 200) {
+    // La página HTML se guarda 1 hora (3600s) en el servidor de Deno
+    resp.headers.set(
+      "cache-control",
+      "public, s-maxage=3600, stale-while-revalidate=60"
+    );
+  }
+
+  return resp;
+
+
 
 }
