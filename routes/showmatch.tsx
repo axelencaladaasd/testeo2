@@ -4,7 +4,7 @@ import { PageProps } from "@fresh/core";
 import { TORNEO_CONFIG } from "@/utils/config.ts";
 import { type MyState } from "@/routes/_middleware.ts";
 import Gate from "@/components/Gate.tsx";
-import ShowVideo from "@/islands/showmatch.tsx";
+import ShowVideo from "@/islands/Show.tsx";
 
 export default function Showmatch({ state: _state }: PageProps<unknown, MyState>) {
   const ahora = Date.now();
