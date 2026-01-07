@@ -60,10 +60,14 @@ export async function handler(ctx: Context<MyState>) {
   const url = new URL(ctx.req.url);
   const path = url.pathname;
 
-  if (!path.startsWith("/clasificacion") && !path.startsWith("/streams")) {
+  const esRutaCacheable = path === "/" ||
+                          path.startsWith("/clasificacion") ||
+                          path.startsWith("/streams") ||
+                          path.startsWith("/showmatch");
+
+  if (!esRutaCacheable) {
     return await ctx.next();
   }
-
   const ahora = Date.now();
   const backendUrl = Deno.env.get("BACKEND_URL") || "";
   const isFinished = ahora >= TORNEO_CONFIG.fechaFin;
@@ -150,5 +154,14 @@ export async function handler(ctx: Context<MyState>) {
     ctx.state.vivos = CACHE.vivos.data;
   }
 
-  return await ctx.next();
+  const resp = await ctx.next();
+
+  if (resp.status === 200) {
+    resp.headers.set(
+      "cache-control",
+      "public, s-maxage=60, stale-while-revalidate=30"
+    );
+  }
+
+  return resp;
 }
