@@ -79,7 +79,7 @@ export default function Timer() {
   );
 
   const containerClasses = `
-    w-full bg-Blanco/80 shadow-2xl rounded-2xl md:rounded-[1.5vw]
+    w-full bg-Blanco shadow-2xl rounded-2xl md:rounded-[1.5vw]
     px-4 pt-1 pb-6 md:px-8 md:pt-3 md:pb-8 transform origin-bottom
     transition-all duration-[1200ms] ease-[cubic-bezier(0.23,1,0.32,1)]
     ${isVisible ? "opacity-100 translate-y-0 scale-100" : "opacity-0 translate-y-12 scale-95"}
